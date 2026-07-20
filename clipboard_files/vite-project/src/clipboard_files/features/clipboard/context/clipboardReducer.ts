@@ -4,6 +4,7 @@ export const initialClipboardState: ClipboardState = {
   entries: {},
   currentEntryId: null,
   currentText: '',
+  currentFormat: 'plain-text',
   isLoading: true,
   error: null,
 }
@@ -31,6 +32,7 @@ export const clipboardReducer = (
         },
         currentEntryId: action.payload.id,
         currentText: action.payload.text,
+        currentFormat: action.payload.format,
       }
 
     case 'DELETE': {
@@ -43,6 +45,7 @@ export const clipboardReducer = (
         entries: remainingEntries,
         currentEntryId: deletedCurrent ? null : state.currentEntryId,
         currentText: deletedCurrent ? '' : state.currentText,
+        currentFormat: deletedCurrent ? 'plain-text' : state.currentFormat,
       }
     }
 
@@ -57,6 +60,7 @@ export const clipboardReducer = (
         ...state,
         currentEntryId: entry.id,
         currentText: entry.text,
+        currentFormat: entry.format,
       }
     }
 
@@ -65,6 +69,7 @@ export const clipboardReducer = (
         ...state,
         currentEntryId: null,
         currentText: '',
+        currentFormat: 'plain-text',
       }
 
     case 'EDIT_CURRENT':
@@ -72,6 +77,13 @@ export const clipboardReducer = (
         ...state,
         currentEntryId: null,
         currentText: action.payload,
+      }
+
+    case 'SET_FORMAT':
+      return {
+        ...state,
+        currentEntryId: null,
+        currentFormat: action.payload,
       }
 
     default:

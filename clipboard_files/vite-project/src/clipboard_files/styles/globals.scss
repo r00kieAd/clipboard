@@ -71,23 +71,31 @@ h2 {
 
 .history-card {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 2rem;
-  gap: var(--space-2);
-  align-items: stretch;
 }
 
 .history-card__content {
   @include interactive-surface;
 
+  position: relative;
   display: grid;
   gap: var(--space-2);
   min-width: 0;
-  padding: var(--space-4);
   border: 0.0625rem solid var(--color-border);
   border-radius: var(--border-radius-md);
   color: inherit;
   background: var(--color-surface-strong);
+  text-align: left;
+}
+
+.history-card__load {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: var(--space-2);
+  padding: var(--space-4) 3.25rem var(--space-4) var(--space-4);
+  border: 0;
+  color: inherit;
+  background: transparent;
   text-align: left;
 }
 
@@ -97,10 +105,12 @@ h2 {
   background: var(--color-hover);
 }
 
-.history-card__content:focus-visible,
+.history-card__load:focus-visible,
 .history-card__delete:focus-visible,
 .button:focus-visible,
 .theme-toggle:focus-visible,
+.format-dropdown__trigger:focus-visible,
+.format-dropdown__option:focus-visible,
 .drawer__scrim:focus-visible {
   @include focus-ring;
 }
@@ -136,6 +146,12 @@ h2 {
 .icon-button:hover {
   color: var(--color-text-primary);
   background: var(--color-hover);
+}
+
+.history-card__delete {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
 }
 
 .workspace {
@@ -180,25 +196,96 @@ h2 {
   gap: var(--space-2);
 }
 
-.editor-textarea {
-  @include scrollbar;
-
+.editor-field {
+  position: relative;
   width: 100%;
   min-height: clamp(16rem, 40vh, 32rem);
   max-height: min(80vh, 46rem);
-  overflow-y: auto;
-  padding: clamp(var(--space-5), 2vw, var(--space-8));
+  overflow: hidden;
   border: 0.0625rem solid var(--color-border);
   border-radius: var(--border-radius-lg);
-  color: var(--color-text-primary);
   background: var(--color-surface-strong);
   box-shadow: 0 1.25rem 4rem var(--color-shadow);
-  font-size: var(--font-size-md);
-  line-height: 1.7;
   transition:
     border-color var(--animation-speed-fast) ease,
     box-shadow var(--animation-speed-fast) ease,
     background-color var(--animation-speed-base) ease;
+}
+
+.editor-field:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 1.5rem 4.5rem var(--color-shadow);
+}
+
+.format-dropdown {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 2;
+}
+
+.format-dropdown__trigger,
+.format-dropdown__option {
+  @include interactive-surface;
+
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: var(--space-2);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.format-dropdown__trigger {
+  padding: var(--space-2) var(--space-3);
+}
+
+.format-dropdown__trigger:hover,
+.format-dropdown__option:hover,
+.format-dropdown__option[aria-selected="true"] {
+  border-color: var(--color-accent);
+  background: var(--color-hover);
+}
+
+.format-dropdown__menu {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  display: grid;
+  min-width: 10rem;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: var(--color-surface-strong);
+  box-shadow: 0 1rem 2.5rem var(--color-shadow);
+}
+
+.format-dropdown__option {
+  justify-content: flex-start;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+}
+
+.editor-textarea {
+  @include scrollbar;
+
+  width: 100%;
+  min-height: inherit;
+  max-height: inherit;
+  overflow-y: auto;
+  padding: calc(var(--space-12) + var(--space-4))
+    clamp(var(--space-5), 2vw, var(--space-8)) clamp(var(--space-5), 2vw, var(--space-8));
+  border: 0;
+  color: var(--color-text-primary);
+  background: transparent;
+  font-size: var(--font-size-md);
+  line-height: 1.7;
 }
 
 .editor-textarea::placeholder {
@@ -206,9 +293,7 @@ h2 {
 }
 
 .editor-textarea:focus {
-  border-color: var(--color-accent);
   outline: none;
-  box-shadow: 0 1.5rem 4.5rem var(--color-shadow);
 }
 
 .toolbar {

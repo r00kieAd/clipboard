@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react'
 import type { ClipboardEntry } from '../types'
-import { formatEntryDate, formatEntryTime, getFirstLinePreview } from '../utils'
+import { formatEntryDateTime, getFirstLinePreview } from '../utils'
 import { useClipboard } from '../hooks/useClipboard'
 
 type HistoryCardProps = {
@@ -27,32 +27,36 @@ export const HistoryCard = memo(function HistoryCard({
 
   return (
     <article className="history-card" role="listitem">
-      <button
-        type="button"
+      <div
         className={`history-card__content ${
           isActive ? 'history-card__content--active' : ''
         }`}
-        aria-current={isActive ? 'true' : undefined}
-        onClick={handleSelect}
       >
-        <span className="history-card__preview">
-          {getFirstLinePreview(entry.text)}
-        </span>
-        <span className="history-card__meta">
-          <time dateTime={new Date(entry.createdAt).toISOString()}>
-            {formatEntryDate(entry.createdAt)} at {formatEntryTime(entry.createdAt)}
-          </time>
-        </span>
-      </button>
+        <button
+          type="button"
+          className="history-card__load"
+          aria-current={isActive ? 'true' : undefined}
+          onClick={handleSelect}
+        >
+          <span className="history-card__preview">
+            {getFirstLinePreview(entry.text)}
+          </span>
+          <span className="history-card__meta">
+            <time dateTime={new Date(entry.createdAt).toISOString()}>
+              {formatEntryDateTime(entry.createdAt)}
+            </time>
+          </span>
+        </button>
 
-      <button
-        type="button"
-        className="icon-button history-card__delete"
-        aria-label={`Delete ${getFirstLinePreview(entry.text)}`}
-        onClick={handleDelete}
-      >
-        <span aria-hidden="true">x</span>
-      </button>
+        <button
+          type="button"
+          className="icon-button history-card__delete"
+          aria-label={`Delete ${getFirstLinePreview(entry.text)}`}
+          onClick={handleDelete}
+        >
+          <i className="fa-solid fa-trash-can" aria-hidden="true" />
+        </button>
+      </div>
     </article>
   )
 })

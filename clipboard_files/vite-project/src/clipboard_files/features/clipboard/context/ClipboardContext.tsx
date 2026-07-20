@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from 'react'
 import { clipboardService } from '../services/clipboardService'
+import type { ClipboardFormat } from '../types'
 import { ClipboardContext, type ClipboardContextValue } from './clipboardContextValue'
 import { clipboardReducer, initialClipboardState } from './clipboardReducer'
 
@@ -51,6 +52,10 @@ export function ClipboardProvider({ children }: ClipboardProviderProps) {
     dispatch({ type: 'EDIT_CURRENT', payload: text })
   }, [])
 
+  const setCurrentFormat = useCallback((format: ClipboardFormat) => {
+    dispatch({ type: 'SET_FORMAT', payload: format })
+  }, [])
+
   const saveCurrent = useCallback(async () => {
     const text = state.currentText.trimEnd()
 
@@ -61,7 +66,7 @@ export function ClipboardProvider({ children }: ClipboardProviderProps) {
     dispatch({ type: 'SET_ERROR', payload: null })
 
     try {
-      const entry = await clipboardService.save(text)
+      const entry = await clipboardService.save(text, state.currentFormat)
       dispatch({ type: 'ADD', payload: entry })
     } catch (error) {
       dispatch({
@@ -70,7 +75,7 @@ export function ClipboardProvider({ children }: ClipboardProviderProps) {
           error instanceof Error ? error.message : 'Current note could not be saved.',
       })
     }
-  }, [state.currentText])
+  }, [state.currentFormat, state.currentText])
 
   const copyCurrent = useCallback(async () => {
     if (!state.currentText.trim()) {
@@ -121,6 +126,7 @@ export function ClipboardProvider({ children }: ClipboardProviderProps) {
       deleteEntry,
       loadEntry,
       saveCurrent,
+      setCurrentFormat,
       setCurrentText,
     }),
     [
@@ -129,6 +135,7 @@ export function ClipboardProvider({ children }: ClipboardProviderProps) {
       deleteEntry,
       loadEntry,
       saveCurrent,
+      setCurrentFormat,
       setCurrentText,
       state,
     ],

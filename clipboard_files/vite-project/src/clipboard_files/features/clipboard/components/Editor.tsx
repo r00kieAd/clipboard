@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import { AutoResizeTextarea } from './AutoResizeTextarea'
+import { FormatDropdown } from './FormatDropdown'
 import { Toolbar } from './Toolbar'
 import { useClipboard } from '../hooks/useClipboard'
 
@@ -8,7 +9,8 @@ type EditorProps = {
 }
 
 export const Editor = memo(function Editor({ onOpenSidebar }: EditorProps) {
-  const { currentText, error, setCurrentText } = useClipboard()
+  const { currentFormat, currentText, error, setCurrentFormat, setCurrentText } =
+    useClipboard()
 
   return (
     <section className="editor-shell" aria-labelledby="editor-title">
@@ -28,7 +30,10 @@ export const Editor = memo(function Editor({ onOpenSidebar }: EditorProps) {
           <h2 id="editor-title">Write or paste anything</h2>
         </div>
 
-        <AutoResizeTextarea value={currentText} onChange={setCurrentText} />
+        <div className="editor-field">
+          <FormatDropdown value={currentFormat} onChange={setCurrentFormat} />
+          <AutoResizeTextarea value={currentText} onChange={setCurrentText} />
+        </div>
 
         {error ? (
           <p className="status-message" role="alert">

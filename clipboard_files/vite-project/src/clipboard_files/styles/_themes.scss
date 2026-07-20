@@ -1,0 +1,47 @@
+@use "variables" as *;
+
+:root,
+:root[data-theme="light"] {
+  --color-background: #{$color-white};
+  --color-surface: #{$color-gray-50};
+  --color-surface-strong: #{$color-white};
+  --color-border: #{$color-gray-200};
+  --color-text-primary: #{$color-gray-900};
+  --color-text-secondary: #{$color-gray-500};
+  --color-accent: #{$color-gray-900};
+  --color-hover: #{$color-gray-100};
+  --color-shadow: #{rgba($color-black, 0.08)};
+  --color-scrim: #{rgba($color-black, 0.36)};
+  --border-radius-sm: #{$radius-sm};
+  --border-radius-md: #{$radius-md};
+  --border-radius-lg: #{$radius-lg};
+  --animation-speed-fast: #{$duration-fast};
+  --animation-speed-base: #{$duration-base};
+  --font-size-xs: #{$font-size-xs};
+  --font-size-sm: #{$font-size-sm};
+  --font-size-md: #{$font-size-md};
+  --font-size-lg: #{$font-size-lg};
+  --font-size-xl: #{$font-size-xl};
+  --space-1: #{$space-1};
+  --space-2: #{$space-2};
+  --space-3: #{$space-3};
+  --space-4: #{$space-4};
+  --space-5: #{$space-5};
+  --space-6: #{$space-6};
+  --space-8: #{$space-8};
+  --space-10: #{$space-10};
+  --space-12: #{$space-12};
+}
+
+:root[data-theme="dark"] {
+  --color-background: #{$color-gray-900};
+  --color-surface: #{$color-gray-800};
+  --color-surface-strong: #{$color-gray-900};
+  --color-border: #{$color-gray-700};
+  --color-text-primary: #{$color-white};
+  --color-text-secondary: #{$color-gray-300};
+  --color-accent: #{$color-white};
+  --color-hover: #{$color-gray-700};
+  --color-shadow: #{rgba($color-black, 0.42)};
+  --color-scrim: #{rgba($color-black, 0.58)};
+}

@@ -1,0 +1,26 @@
+@mixin focus-ring {
+  outline: 0.125rem solid var(--color-accent);
+  outline-offset: 0.1875rem;
+}
+
+@mixin interactive-surface {
+  transition:
+    background-color var(--animation-speed-fast) ease,
+    border-color var(--animation-speed-fast) ease,
+    color var(--animation-speed-fast) ease,
+    transform var(--animation-speed-fast) ease;
+}
+
+@mixin scrollbar {
+  scrollbar-color: var(--color-border) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--border-radius-md);
+  }
+}

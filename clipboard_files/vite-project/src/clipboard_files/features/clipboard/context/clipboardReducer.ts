@@ -3,6 +3,7 @@ import type { ClipboardAction, ClipboardState } from '../types'
 export const initialClipboardState: ClipboardState = {
   entries: {},
   currentEntryId: null,
+  currentTitle: '',
   currentText: '',
   currentFormat: 'plain-text',
   isLoading: true,
@@ -31,6 +32,7 @@ export const clipboardReducer = (
           [action.payload.id]: action.payload,
         },
         currentEntryId: action.payload.id,
+        currentTitle: action.payload.title,
         currentText: action.payload.text,
         currentFormat: action.payload.format,
       }
@@ -44,6 +46,7 @@ export const clipboardReducer = (
         ...state,
         entries: remainingEntries,
         currentEntryId: deletedCurrent ? null : state.currentEntryId,
+        currentTitle: deletedCurrent ? '' : state.currentTitle,
         currentText: deletedCurrent ? '' : state.currentText,
         currentFormat: deletedCurrent ? 'plain-text' : state.currentFormat,
       }
@@ -59,6 +62,7 @@ export const clipboardReducer = (
       return {
         ...state,
         currentEntryId: entry.id,
+        currentTitle: entry.title,
         currentText: entry.text,
         currentFormat: entry.format,
       }
@@ -68,6 +72,7 @@ export const clipboardReducer = (
       return {
         ...state,
         currentEntryId: null,
+        currentTitle: '',
         currentText: '',
         currentFormat: 'plain-text',
       }
@@ -75,14 +80,18 @@ export const clipboardReducer = (
     case 'EDIT_CURRENT':
       return {
         ...state,
-        currentEntryId: null,
         currentText: action.payload,
+      }
+
+    case 'EDIT_TITLE':
+      return {
+        ...state,
+        currentTitle: action.payload,
       }
 
     case 'SET_FORMAT':
       return {
         ...state,
-        currentEntryId: null,
         currentFormat: action.payload,
       }
 

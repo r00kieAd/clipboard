@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react'
 import type { ClipboardEntry } from '../types'
-import { formatEntryDateTime, getFirstLinePreview } from '../utils'
+import { formatEntryDateTime, getEntryTitle } from '../utils'
 import { useClipboard } from '../hooks/useClipboard'
 
 type HistoryCardProps = {
@@ -38,9 +38,7 @@ export const HistoryCard = memo(function HistoryCard({
           aria-current={isActive ? 'true' : undefined}
           onClick={handleSelect}
         >
-          <span className="history-card__preview">
-            {getFirstLinePreview(entry.text)}
-          </span>
+          <span className="history-card__preview">{getEntryTitle(entry)}</span>
           <span className="history-card__meta">
             <time dateTime={new Date(entry.createdAt).toISOString()}>
               {formatEntryDateTime(entry.createdAt)}
@@ -51,7 +49,7 @@ export const HistoryCard = memo(function HistoryCard({
         <button
           type="button"
           className="icon-button history-card__delete"
-          aria-label={`Delete ${getFirstLinePreview(entry.text)}`}
+          aria-label={`Delete ${getEntryTitle(entry)}`}
           onClick={handleDelete}
         >
           <i className="fa-solid fa-trash-can" aria-hidden="true" />

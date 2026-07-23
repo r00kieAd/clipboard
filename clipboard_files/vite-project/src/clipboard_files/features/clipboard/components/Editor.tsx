@@ -9,8 +9,15 @@ type EditorProps = {
 }
 
 export const Editor = memo(function Editor({ onOpenSidebar }: EditorProps) {
-  const { currentFormat, currentText, error, setCurrentFormat, setCurrentText } =
-    useClipboard()
+  const {
+    currentFormat,
+    currentText,
+    currentTitle,
+    error,
+    setCurrentFormat,
+    setCurrentText,
+    setCurrentTitle,
+  } = useClipboard()
 
   return (
     <section className="editor-shell" aria-labelledby="editor-title">
@@ -29,6 +36,16 @@ export const Editor = memo(function Editor({ onOpenSidebar }: EditorProps) {
           <p className="eyebrow">Current note</p>
           <h2 id="editor-title">Write or paste anything</h2>
         </div>
+
+        <input
+          className="note-title-input"
+          type="text"
+          aria-label="Note name"
+          placeholder="Note name"
+          value={currentTitle}
+          onChange={(event) => setCurrentTitle(event.target.value)}
+          maxLength={80}
+        />
 
         <div className="editor-field">
           <FormatDropdown value={currentFormat} onChange={setCurrentFormat} />
